@@ -13,11 +13,12 @@
 
 </head>
 <body>
-  <div class="navbar">
-    <a href="./index.html">Small-scale</a>
-    <a class="active" href="./large-scale.html">Larger-scale</a>
-  </div>
-  <div id="map" style="width: 60%; height: 100vh; background: grey" />
+  <div class="navigation">
+    <a href="./index.html">Small Scale</a>
+    <img src="./img/What the crop.png">
+  <a class="active" href="./large-scale.html">Large Scale</a>
+ </div>
+  <div id="map" style="width: 100%; height: 100vh; background: grey" />
   <script  type="text/javascript" charset="UTF-8" >
     
 /**
@@ -101,8 +102,8 @@ var defaultLayers = platform.createDefaultLayers({
 // initialize a map - this map is centered over Europe
 var map = new H.Map(document.getElementById('map'),
   defaultLayers.normal.map,{
-  center: {lat:38.4242745, lng:-96.6465025},
-  zoom: 14,
+  center: {lat:38.426, lng:-96.649},
+  zoom: 15,
   pixelRatio: pixelRatio
 });
 

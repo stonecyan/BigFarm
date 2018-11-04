@@ -1,31 +1,32 @@
 /* Nav Bar */
-.navbar {
- 	background-color: #393636;
- 	height: 45px;
+.navigation {
+ 	height: 70px;
+ 	align-content: center;
+ 	padding-left: 40%;
 }
 
-.navbar a {
+.navigation a {
 	position: relative;
-	float:left;
- 	color: #C0C0C0;
+ 	color: 	#A9A9A9;
  	text-align: center;
  	padding: 10px 10px;
  	text-decoration: none;
  	font-size: 17px;
 }
 
-.navbar img{
+.navigation img{
 	height: 100%;
 	margin: 0;
+	align-content: center;
 }
 
-.navbar a:hover {
-  color: white	;
+.navigation a:hover {
+  color: green;
+  text-decoration: none;
 }
 
-.navbar a.active {
-  background-color: black;
-  color: white;
+.navigation a.active {
+  color: green;
 }
 
 

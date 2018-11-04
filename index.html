@@ -8,7 +8,6 @@
  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
    crossorigin="anonymous"></script>
- <script type="text/javascript" src="js/jquery.ajax-cross-origin.min.js"></script>
 
 
  <!-- Bootstrap CSS -->
@@ -22,9 +21,11 @@
 </head>
 
 <body>
- <div class="navbar">
-   <a class="active" href="./index.html">Small-scale</a>
-   <a href="./large-scale.html">Larger-scale</a>
+  <!-- navbar -->
+ <div class="navigation">
+  <a class="active" href="./index.html">Small Scale</a>
+  <img src="./img/What the crop.png">
+  <a href="./large-scale.html">Large Scale</a>
  </div>
  <div class="content">
    <!-- Sensor data -->
@@ -102,6 +103,7 @@
 
  <script>
    var soil1;
+   
    function ajax_get() {
      $.ajax({
        crossOrigin: true,
@@ -111,12 +113,10 @@
          alert("loading eror!");
        },
        success: function (data) {
-        var soilInt = parseInt(soil1);
-        if (soilInt<500){
-        $("#node1img").html("<img src='./img/Dry-Warm.png'>");
+        
         }
        }
-     })
+     )
 
    };
    $(document).ready(function () {
@@ -131,6 +131,13 @@
        success: function (data) {
          soil1 = data.last_value;
          console.log(soil1);
+         var soilInt = parseInt(soil1);
+        if(soilInt<500){
+         $("#node1img").attr("src","./img/Dry-Warm.png");
+         }
+         else{
+         $("#node1img").attr("src","./img/Good-Warm.png");
+         }
          //data_format(data)
          //$('.info').html(innerHtml)
        },
@@ -139,6 +146,7 @@
        }
      });
      
+        
 
      $("#node1").click(function () {
        $("#plantTitle").text("Carrot");
