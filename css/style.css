@@ -2,7 +2,7 @@
 .navigation {
  	height: 70px;
  	align-content: center;
- 	padding-left: 40%;
+ 	padding-left: 26%;
 }
 
 .navigation a {
@@ -12,6 +12,7 @@
  	padding: 10px 10px;
  	text-decoration: none;
  	font-size: 17px;
+ 	margin: 10%;
 }
 
 .navigation img{
@@ -131,4 +132,8 @@
 .node figcaption img:hover{
 	opacity:1;
 	transition-duration: 500ms;
+}
+
+.mapbutton{
+	font-size: 10px;
 }

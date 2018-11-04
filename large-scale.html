@@ -191,7 +191,7 @@ function addInfoBubble(map) {
   addMarkerToGroup(group, {lat:38.432, lng:-96.646},
     '<div class="largeSensorInfo">' +
     '<p class="largeTitle" id="largePlantTitle">Corn</p>' +
-    '<p class="largeUnits">&#8457;</p>' + temperature +
+    '<p class="largeUnits">&#8457;</p>' + 
     '<p class="largeSensorDescription">Temperature: <span class="sensorData" id="temp"></span></p>' +
     '<p class="largeUnits">%</p>' +
     '<p class="largeSensorDescription">Humidity: <span class="sensorData" id="humid"></span></p>' +
@@ -199,6 +199,7 @@ function addInfoBubble(map) {
     '<p class="largeSensorDescription">Soil Moisture: <span class="sensorData" id="soil"></span></p>' +
     '<p class="largeUnits">lux</p>' +
     '<p class="largeSensorDescription">Sunlight: <span class="sensorData" id="sun"></span></p>' +    
+    '<button class="mapbutton">Load data</button>' +
     '</div>');
 
   addMarkerToGroup(group, {lat:38.432, lng: -96.65},
