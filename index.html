@@ -129,7 +129,6 @@
        dataType: 'json',
        success: function (data) {
          soil1 = data.last_value;
-         console.log(soil1);
          var soilInt = parseInt(soil1);
         if(soilInt<500){
          $("#node1img").attr("src","./img/Dry-Warm.png");
