@@ -117,6 +117,10 @@
     var sunlight2;
     var temperaturecolor;
     var soilcolor;
+    var hot = 32.00;
+    var cold = 24.00;
+    var water = 430;
+    var nowater = 350;
 
     var temperature1 = "";
     var soil1 = "";
@@ -139,11 +143,11 @@
           temperature = data['feeds'][1].field1;
           $("#temp").text(temperature);
           var tempFloat = parseFloat(temperature);
-          if (tempFloat<10)
+          if (tempFloat<cold)
           {
             temperaturecolor = "#A5F2F3";
           }
-          if (tempFloat>32)
+          if (tempFloat>hot)
           {
             temperaturecolor = "#9C2A00";
           }
@@ -165,22 +169,22 @@
           $("#soil").text(soil);
           var soilInt = parseInt(soil);
           var tempInt = parseFloat(temperature);
-          if (soilInt > 430 && tempInt>32){
+          if (soilInt > 430 && tempInt>hot){
             $("#node1img").attr("src", "./img/Dry-Hot.png");
           }
-          else if (soilInt <= 430 && tempInt>32){
+          else if (soilInt <= water && tempInt>hot){
             $("#node1img").attr("src", "./img/Good-Hot.png");
           }
-          else if (soilInt <= 430 && tempInt<=32 && tempInt >10){
+          else if (soilInt <= water && tempInt<=hot && tempInt >cold){
             $("#node1img").attr("src", "./img/Good-Warm.png");
           }
-          else if (soilInt > 430 && tempInt <= 32 && tempInt >10){
+          else if (soilInt > water && tempInt <= hot && tempInt >cold){
             $("#node1img").attr("src", "./img/Dry-Warm.png");
           }
-          else if (soilInt > 430 && tempInt <=10){
+          else if (soilInt > water && tempInt <=cold){
             $("#node1img").attr("src", "./img/Dry-Cold.png");
           }
-          else if (soilInt <= 430 && tempInt <=10){
+          else if (soilInt <= water && tempInt <=cold){
             $("#node1img").attr("src", "./img/Good-Cold.png");
           }
 
@@ -225,12 +229,6 @@
         }
       });
 
-        
-        
-
-
-
-
 
       /* Repeating ajax call */
       var refreshTemp = setInterval(function() {$.ajax({
@@ -240,17 +238,17 @@
         success: function (data) {
           temperature = data['feeds'][1].field1;
           var tempFloat = parseFloat(temperature);
-          if (tempFloat<10)
+          if (tempFloat<cold)
           {
             temperaturecolor = "#A5F2F3";
             $("#temp").css('color',temperaturecolor);
           }
-          if (tempFloat>32)
+          if (tempFloat>hot)
           {
             temperaturecolor = "#9C2A00";
             $("#temp").css('color',temperaturecolor);
           }
-          else{
+          else if (tempFloat>=cold && tempFloat<=hot){
             temperaturecolor = "white";
             $("#temp").css('color',temperaturecolor);
           }
@@ -258,6 +256,26 @@
         error: function (xhr) {
         }
       });}, refresh);
+
+      var tempAlert = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/1.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          temperature = data['feeds'][1].field1;
+          var tempFloat = parseFloat(temperature);
+          if (tempFloat<cold)
+          {
+            alert("It's getting cold!")
+          }
+          if (tempFloat>hot)
+          {
+            alert("It's getting hot!")
+          }
+        },
+        error: function (xhr) {
+        }
+      });}, 50000);
 
       
 
@@ -269,31 +287,31 @@
           soil = data['feeds'][1].field5;
           var soilInt = parseInt(soil);
           var tempInt = parseInt(temperature);
-          if (soilInt > 430 && tempInt>32){
+          if (soilInt > water && tempInt>hot){
             $("#node1img").attr("src", "./img/Dry-Hot.png");
           }
-          else if (soilInt <= 430 && tempInt>32){
+          else if (soilInt <= water && tempInt>hot){
             $("#node1img").attr("src", "./img/Good-Hot.png");
           }
-          else if (soilInt <= 430 && tempInt<=32 && tempInt >10){
+          else if (soilInt <= water && tempInt<=hot && tempInt >cold){
             $("#node1img").attr("src", "./img/Good-Warm.png");
           }
-          else if (soilInt > 430 && tempInt <= 32 && tempInt >10){
+          else if (soilInt > water && tempInt <= hot && tempInt >cold){
             $("#node1img").attr("src", "./img/Dry-Warm.png");
           }
-          else if (soilInt > 430 && tempInt <=10){
+          else if (soilInt > water && tempInt <=cold){
             $("#node1img").attr("src", "./img/Dry-Cold.png");
           }
-          else if (soilInt <= 430 && tempInt <=10){
+          else if (soilInt <= water && tempInt <=cold){
             $("#node1img").attr("src", "./img/Good-Cold.png");
           }
 
-          if(soilInt<=430 && soilInt>350)
+          if(soilInt<=water && soilInt>nowater)
           {
             soilcolor = "yellow";
             $("#soil").css('color',soilcolor);
           }
-          if(soilInt>430)
+          if(soilInt>water)
           {
             soilcolor = "#DAA520";
             $("#soil").css('color',soilcolor);
@@ -310,28 +328,22 @@
         }
       });}, refresh);
 
-      var soilEmail = setInterval(function() {$.ajax({
+      var soilalert = setInterval(function() {$.ajax({
         crossOrigin: true,
         type: 'GET',
         url: 'https://api.thingspeak.com/channels/618622/fields/5.json?api_key=X1WVC3XWDW20DM37&results=2',
         success: function (data) {
           soil = data['feeds'][1].field5;
           var soilInt = parseInt(soil);
-          if (soilInt>430)
+          if (soilInt>water)
           {
-            Email.send("kingofpebbles23@gmail.com",
-                      "kingofpebbles23@gmail.com",
-                      "Crop Alert!",
-                      "Your crops need watering!",
-                      "aspmx.l.google.com",
-                      "kingofpebbles23",
-                      "nidema88");
+            alert("Your crops need watering!")
           }
 
         },
         error: function (xhr) {
         }
-      });}, refresh);
+      });}, 50000);
 
 
       var refreshHumid = setInterval(function() {$.ajax({

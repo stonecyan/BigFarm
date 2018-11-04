@@ -22,81 +22,108 @@
  </div>
   <div id="map" style="width: 100%; height: 100vh; background: grey" />
   <script  type="text/javascript" charset="UTF-8" >
+    var refresh = 1000;
+
     var temperature;
     var soil;
     var humidity;
-    var sunlight;
-
+    var sunlight1;
+    var sunlight2;
+    var temperaturecolor;
+    var soilcolor;
     $(document).ready(function () {
       /* Initial load of data*/
       $.ajax({
         crossOrigin: true,
         type: 'GET',
-        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/humidityfeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        url: 'https://api.thingspeak.com/channels/618622/fields/1.json?api_key=X1WVC3XWDW20DM37&results=2',
         success: function (data) {
-          temperature = data.last_value;
+          temperature = data['feeds'][1].field1;
           console.log(temperature);
+          var tempFloat = parseFloat(temperature);
+          if (tempFloat<10)
+          {
+            temperaturecolor = "#A5F2F3";
+          }
+          if (tempFloat>32)
+          {
+            temperaturecolor = "#9C2A00";
+          }
+          else
+          {
+            temperaturecolor = "white";
+          }
         },
         error: function (xhr) {
-          alert("Error: " + xhr.status + " " + xhr.statusText);
         }
       });
       
       $.ajax({
         crossOrigin: true,
         type: 'GET',
-        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lightonefeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        url: 'https://api.thingspeak.com/channels/618622/fields/5.json?api_key=X1WVC3XWDW20DM37&results=2',
         success: function (data) {
-          soil = data.last_value;
+          soil = data['feeds'][1].field5;
+          $("#soil").text(soil);
           var soilInt = parseInt(soil);
-          var tempInt = parseInt(temperature);
-          if (soilInt < 500 && tempInt>70){
+          var tempInt = parseFloat(temperature);
+          if (soilInt > 430 && tempInt>32){
             $("#node1img").attr("src", "./img/Dry-Hot.png");
           }
-          else if (soilInt >= 500 && tempInt>70){
+          else if (soilInt <= 430 && tempInt>32){
             $("#node1img").attr("src", "./img/Good-Hot.png");
           }
-          else if (soilInt >= 500 && tempInt<=70 && tempInt >50){
+          else if (soilInt <= 430 && tempInt<=32 && tempInt >10){
             $("#node1img").attr("src", "./img/Good-Warm.png");
           }
-          else if (soilInt < 500 && tempInt <= 70 && tempInt >50){
+          else if (soilInt > 430 && tempInt <= 32 && tempInt >10){
             $("#node1img").attr("src", "./img/Dry-Warm.png");
           }
-          else if (soilInt < 500 && tempInt <=50){
+          else if (soilInt > 430 && tempInt <=10){
             $("#node1img").attr("src", "./img/Dry-Cold.png");
           }
-          else if (soilInt >= 500 && tempInt <=50){
+          else if (soilInt <= 430 && tempInt <=10){
             $("#node1img").attr("src", "./img/Good-Cold.png");
           }
 
 
         },
         error: function (xhr) {
-          alert("Error: " + xhr.status + " " + xhr.statusText);
         }
       });
 
       $.ajax({
         crossOrigin: true,
         type: 'GET',
-        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/humidityfeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        url: 'https://api.thingspeak.com/channels/618622/fields/2.json?api_key=X1WVC3XWDW20DM37&results=2',
         success: function (data) {
-          humidity = data.last_value;
+          humidity = data['feeds'][1].field2;
+          $("#humid").text(humidity);
+        },
+        error: function (xhr) {        }
+      });
+
+       $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/3.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          sunlight1 = data['feeds'][1].field3;
+          $("#sun1").text(sunlight1);
         },
         error: function (xhr) {
-          alert("Error: " + xhr.status + " " + xhr.statusText);
         }
       });
 
        $.ajax({
         crossOrigin: true,
         type: 'GET',
-        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lighttwofeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        url: 'https://api.thingspeak.com/channels/618622/fields/4.json?api_key=X1WVC3XWDW20DM37&results=2',
         success: function (data) {
-          sunlight = data.last_value;
+          sunlight2 = data['feeds'][1].field4;
+          $("#sun2").text(sunlight2);
         },
         error: function (xhr) {
-          alert("Error: " + xhr.status + " " + xhr.statusText);
         }
       });
 
@@ -105,52 +132,126 @@
       var refreshTemp = setInterval(function() {$.ajax({
         crossOrigin: true,
         type: 'GET',
-        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/humidityfeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        url: 'https://api.thingspeak.com/channels/618622/fields/1.json?api_key=X1WVC3XWDW20DM37&results=2',
         success: function (data) {
-          temperature = data.last_value;
+          temperature = data['feeds'][1].field1;
+          var tempFloat = parseFloat(temperature);
+          if (tempFloat<10)
+          {
+            temperaturecolor = "#A5F2F3";
+            $("#temp").css('color',temperaturecolor);
+          }
+          if (tempFloat>32)
+          {
+            temperaturecolor = "#9C2A00";
+            $("#temp").css('color',temperaturecolor);
+          }
+          else{
+            temperaturecolor = "white";
+            $("#temp").css('color',temperaturecolor);
+          }
         },
         error: function (xhr) {
-          alert("Error: " + xhr.status + " " + xhr.statusText);
         }
-      });}, 5000);
+      });}, refresh);
+
       
 
       var refreshSoil = setInterval(function() {$.ajax({
         crossOrigin: true,
         type: 'GET',
-        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lightonefeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        url: 'https://api.thingspeak.com/channels/618622/fields/5.json?api_key=X1WVC3XWDW20DM37&results=2',
         success: function (data) {
-          soil = data.last_value;
+          soil = data['feeds'][1].field5;
+          var soilInt = parseInt(soil);
+          var tempInt = parseInt(temperature);
+          if (soilInt > 430 && tempInt>32){
+            $("#node1img").attr("src", "./img/Dry-Hot.png");
+          }
+          else if (soilInt <= 430 && tempInt>32){
+            $("#node1img").attr("src", "./img/Good-Hot.png");
+          }
+          else if (soilInt <= 430 && tempInt<=32 && tempInt >10){
+            $("#node1img").attr("src", "./img/Good-Warm.png");
+          }
+          else if (soilInt > 430 && tempInt <= 32 && tempInt >10){
+            $("#node1img").attr("src", "./img/Dry-Warm.png");
+          }
+          else if (soilInt > 430 && tempInt <=10){
+            $("#node1img").attr("src", "./img/Dry-Cold.png");
+          }
+          else if (soilInt <= 430 && tempInt <=10){
+            $("#node1img").attr("src", "./img/Good-Cold.png");
+          }
+
+          if(soilInt<=430 && soilInt>350)
+          {
+            soilcolor = "yellow";
+            $("#soil").css('color',soilcolor);
+          }
+          if(soilInt>430)
+          {
+            soilcolor = "#DAA520";
+            $("#soil").css('color',soilcolor);
+          }
+          else
+          {
+            soilcolor = "white";
+            $("#soil").css('color',soilcolor);
+          }
+
+
         },
         error: function (xhr) {
-          alert("Error: " + xhr.status + " " + xhr.statusText);
         }
-      });}, 5000);
+      });}, refresh);
+
+      var soilEmail = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/5.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          soil = data['feeds'][1].field5;
+          var soilInt = parseInt(soil);
+
+        },
+        error: function (xhr) {
+        }
+      });}, refresh);
 
 
       var refreshHumid = setInterval(function() {$.ajax({
         crossOrigin: true,
         type: 'GET',
-        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/humidityfeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        url: 'https://api.thingspeak.com/channels/618622/fields/3.json?api_key=X1WVC3XWDW20DM37&results=2',
         success: function (data) {
-          humidity = data.last_value;
+          humidity = data['feeds'][1].field3;
         },
         error: function (xhr) {
-          alert("Error: " + xhr.status + " " + xhr.statusText);
         }
-      });}, 5000);
+      });}, refresh);
 
-      var refreshSun = setInterval(function() {$.ajax({
+      var refreshSun1 = setInterval(function() {$.ajax({
         crossOrigin: true,
         type: 'GET',
-        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lighttwofeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        url: 'https://api.thingspeak.com/channels/618622/fields/4.json?api_key=X1WVC3XWDW20DM37&results=2',
         success: function (data) {
-          sunlight = data.last_value;
+          sunlight1 = data['feeds'][1].field3;
         },
         error: function (xhr) {
-          alert("Error: " + xhr.status + " " + xhr.statusText);
         }
-      });}, 5000);  
+      });}, refresh);
+
+      var refreshSun2 = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://api.thingspeak.com/channels/618622/fields/4.json?api_key=X1WVC3XWDW20DM37&results=2',
+        success: function (data) {
+          sunlight1 = data['feeds'][1].field4;
+        },
+        error: function (xhr) {
+        }
+      });}, refresh);
     });
 /**
  * Creates a new marker and adds it to a group
@@ -188,21 +289,20 @@ function addInfoBubble(map) {
     ui.addBubble(bubble);
   }, false);
 
-  addMarkerToGroup(group, {lat:38.432, lng:-96.646},
+  addMarkerToGroup(group, {lat:38.432, lng:-96.65},
     '<div class="largeSensorInfo">' +
     '<p class="largeTitle" id="largePlantTitle">Corn</p>' +
     '<p class="largeUnits">&#8457;</p>' + 
-    '<p class="largeSensorDescription">Temperature: <span class="sensorData" id="temp"></span></p>' +
+    '<p class="largeSensorDescription">Temperature: <span class="sensorData" id="temp">22.00</span></p>' +
     '<p class="largeUnits">%</p>' +
-    '<p class="largeSensorDescription">Humidity: <span class="sensorData" id="humid"></span></p>' +
-    '<p class="largeUnits">m<sup>3</sup>/m<sup>3</sup></p>' +
-    '<p class="largeSensorDescription">Soil Moisture: <span class="sensorData" id="soil"></span></p>' +
+    '<p class="largeSensorDescription">Humidity: <span class="sensorData" id="humid">79</span></p>' +
+    '<p class="largeUnits">RH</p>' +
+    '<p class="largeSensorDescription">Soil Moisture: <span class="sensorData" id="soil">543</span></p>' +
     '<p class="largeUnits">lux</p>' +
-    '<p class="largeSensorDescription">Sunlight: <span class="sensorData" id="sun"></span></p>' +    
-    '<button class="mapbutton">Load data</button>' +
+    '<p class="largeSensorDescription">Sunlight: <span class="sensorData" id="sun">237</span></p>' +
     '</div>');
 
-  addMarkerToGroup(group, {lat:38.432, lng: -96.65},
+  addMarkerToGroup(group, {lat:38.432, lng: -96.646},
     '<div class="largeSensorInfo">' +
     '<p class="largeTitle" id="largePlantTitle">Corn</p>' +
     '<p class="largeUnits">&#8457;</p>' +
@@ -301,6 +401,7 @@ var ui = H.ui.UI.createDefault(map, defaultLayers);
 
 // Now use the map as required...
 addInfoBubble(map);
+
 
 </script>
 </body>
