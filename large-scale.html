@@ -10,17 +10,148 @@
 <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-service.js"></script>
 <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-ui.js"></script>
 <script type="text/javascript" src="https://js.api.here.com/v3/3.0/mapsjs-mapevents.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
 
 </head>
 <body>
   <div class="navigation">
     <a href="./index.html">Small Scale</a>
-    <img src="./img/What the crop.png">
+    <img src="./img/What the crop.png">ı
   <a class="active" href="./large-scale.html">Large Scale</a>
  </div>
   <div id="map" style="width: 100%; height: 100vh; background: grey" />
   <script  type="text/javascript" charset="UTF-8" >
-    
+    var temperature;
+    var soil;
+    var humidity;
+    var sunlight;
+
+    $(document).ready(function () {
+      /* Initial load of data*/
+      $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/humidityfeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          temperature = data.last_value;
+          console.log(temperature);
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });
+      
+      $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lightonefeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          soil = data.last_value;
+          var soilInt = parseInt(soil);
+          var tempInt = parseInt(temperature);
+          if (soilInt < 500 && tempInt>70){
+            $("#node1img").attr("src", "./img/Dry-Hot.png");
+          }
+          else if (soilInt >= 500 && tempInt>70){
+            $("#node1img").attr("src", "./img/Good-Hot.png");
+          }
+          else if (soilInt >= 500 && tempInt<=70 && tempInt >50){
+            $("#node1img").attr("src", "./img/Good-Warm.png");
+          }
+          else if (soilInt < 500 && tempInt <= 70 && tempInt >50){
+            $("#node1img").attr("src", "./img/Dry-Warm.png");
+          }
+          else if (soilInt < 500 && tempInt <=50){
+            $("#node1img").attr("src", "./img/Dry-Cold.png");
+          }
+          else if (soilInt >= 500 && tempInt <=50){
+            $("#node1img").attr("src", "./img/Good-Cold.png");
+          }
+
+
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });
+
+      $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/humidityfeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          humidity = data.last_value;
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });
+
+       $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lighttwofeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          sunlight = data.last_value;
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });
+
+
+      /* Repeating ajax call */
+      var refreshTemp = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/humidityfeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          temperature = data.last_value;
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });}, 5000);
+      
+
+      var refreshSoil = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lightonefeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          soil = data.last_value;
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });}, 5000);
+
+
+      var refreshHumid = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/humidityfeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          humidity = data.last_value;
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });}, 5000);
+
+      var refreshSun = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lighttwofeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          sunlight = data.last_value;
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });}, 5000);  
+    });
 /**
  * Creates a new marker and adds it to a group
  * @param {H.map.Group} group       The group holding the new marker
@@ -58,29 +189,82 @@ function addInfoBubble(map) {
   }, false);
 
   addMarkerToGroup(group, {lat:38.432, lng:-96.646},
-    '<div><a href=\'http://www.mcfc.co.uk\' >Manchester City</a>' +
-    '</div><div >City of Manchester Stadium<br>Capacity: 48,000</div>');
+    '<div class="largeSensorInfo">' +
+    '<p class="largeTitle" id="largePlantTitle">Corn</p>' +
+    '<p class="largeUnits">&#8457;</p>' + temperature +
+    '<p class="largeSensorDescription">Temperature: <span class="sensorData" id="temp"></span></p>' +
+    '<p class="largeUnits">%</p>' +
+    '<p class="largeSensorDescription">Humidity: <span class="sensorData" id="humid"></span></p>' +
+    '<p class="largeUnits">m<sup>3</sup>/m<sup>3</sup></p>' +
+    '<p class="largeSensorDescription">Soil Moisture: <span class="sensorData" id="soil"></span></p>' +
+    '<p class="largeUnits">lux</p>' +
+    '<p class="largeSensorDescription">Sunlight: <span class="sensorData" id="sun"></span></p>' +    
+    '</div>');
 
   addMarkerToGroup(group, {lat:38.432, lng: -96.65},
-    '<div ><a href=\'http://www.liverpoolfc.tv\' >Liverpool</a>' +
-    '</div><div >Anfield<br>Capacity: 45,362</div>');
+    '<div class="largeSensorInfo">' +
+    '<p class="largeTitle" id="largePlantTitle">Corn</p>' +
+    '<p class="largeUnits">&#8457;</p>' +
+    '<p class="largeSensorDescription">Temperature: <span class="sensorData" id="temp"></span></p>' +
+    '<p class="largeUnits">%</p>' +
+    '<p class="largeSensorDescription">Humidity: <span class="sensorData" id="humid"></span></p>' +
+    '<p class="largeUnits">m<sup>3</sup>/m<sup>3</sup></p>' +
+    '<p class="largeSensorDescription">Soil Moisture: <span class="sensorData" id="soil"></span></p>' +
+    '<p class="largeUnits">lux</p>' +
+    '<p class="largeSensorDescription">Sunlight: <span class="sensorData" id="sun"></span></p>' +
+    '</div>');
 
   addMarkerToGroup(group, {lat:38.428, lng:-96.65},
-  '<div ><a href=\'http://www.liverpoolfc.tv\' >Liverpool</a>' +
-  '</div><div >Anfield<br>Capacity: 45,362</div>');
+  '<div class="largeSensorInfo">' +
+    '<p class="largeTitle" id="largePlantTitle">Corn</p>' +
+    '<p class="largeUnits">&#8457;</p>' +
+    '<p class="largeSensorDescription">Temperature: <span class="sensorData" id="temp"></span></p>' +
+    '<p class="largeUnits">%</p>' +
+    '<p class="largeSensorDescription">Humidity: <span class="sensorData" id="humid"></span></p>' +
+    '<p class="largeUnits">m<sup>3</sup>/m<sup>3</sup></p>' +
+    '<p class="largeSensorDescription">Soil Moisture: <span class="sensorData" id="soil"></span></p>' +
+    '<p class="largeUnits">lux</p>' +
+    '<p class="largeSensorDescription">Sunlight: <span class="sensorData" id="sun"></span></p>' +
+    '</div>');
 
   addMarkerToGroup(group, {lat:38.428, lng: -96.646},
-    '<div ><a href=\'http://www.liverpoolfc.tv\' >Liverpool</a>' +
-    '</div><div >Anfield<br>Capacity: 45,362</div>');
+    '<div class="largeSensorInfo">' +
+    '<p class="largeTitle" id="largePlantTitle">Corn</p>' +
+    '<p class="largeUnits">&#8457;</p>' +
+    '<p class="largeSensorDescription">Temperature: <span class="sensorData" id="temp"></span></p>' +
+    '<p class="largeUnits">%</p>' +
+    '<p class="largeSensorDescription">Humidity: <span class="sensorData" id="humid"></span></p>' +
+    '<p class="largeUnits">m<sup>3</sup>/m<sup>3</sup></p>' +
+    '<p class="largeSensorDescription">Soil Moisture: <span class="sensorData" id="soil"></span></p>' +
+    '<p class="largeUnits">lux</p>' +
+    '<p class="largeSensorDescription">Sunlight: <span class="sensorData" id="sun"></span></p>' +
+    '</div>');
 
   addMarkerToGroup(group, {lat:38.423, lng:-96.65},
-    '<div ><a href=\'http://www.liverpoolfc.tv\' >Liverpool</a>' +
-    '</div><div >Anfield<br>Capacity: 45,362</div>');
+    '<div class="largeSensorInfo">' +
+    '<p class="largeTitle" id="largePlantTitle">Corn</p>' +
+    '<p class="largeUnits">&#8457;</p>' +
+    '<p class="largeSensorDescription">Temperature: <span class="sensorData" id="temp"></span></p>' +
+    '<p class="largeUnits">%</p>' +
+    '<p class="largeSensorDescription">Humidity: <span class="sensorData" id="humid"></span></p>' +
+    '<p class="largeUnits">m<sup>3</sup>/m<sup>3</sup></p>' +
+    '<p class="largeSensorDescription">Soil Moisture: <span class="sensorData" id="soil"></span></p>' +
+    '<p class="largeUnits">lux</p>' +
+    '<p class="largeSensorDescription">Sunlight: <span class="sensorData" id="sun"></span></p>' +
+    '</div>');
 
   addMarkerToGroup(group, {lat:38.423, lng: -96.646},
-    '<div ><a href=\'http://www.liverpoolfc.tv\' >Liverpool</a>' +
-    '</div><div >Anfield<br>Capacity: 45,362</div>');  
-
+    '<div class="largeSensorInfo">' +
+    '<p class="largeTitle" id="largePlantTitle">Corn</p>' +
+    '<p class="largeUnits">&#8457;</p>' +
+    '<p class="largeSensorDescription">Temperature: <span class="sensorData" id="temp"></span></p>' +
+    '<p class="largeUnits">%</p>' +
+    '<p class="largeSensorDescription">Humidity: <span class="sensorData" id="humid"></span></p>' +
+    '<p class="largeUnits">m<sup>3</sup>/m<sup>3</sup></p>' +
+    '<p class="largeSensorDescription">Soil Moisture: <span class="sensorData" id="soil"></span></p>' +
+    '<p class="largeUnits">lux</p>' +
+    '<p class="largeSensorDescription">Sunlight: <span class="sensorData" id="sun"></span></p>' +
+    '</div>'); 
 }
 
 /**
@@ -102,7 +286,7 @@ var defaultLayers = platform.createDefaultLayers({
 // initialize a map - this map is centered over Europe
 var map = new H.Map(document.getElementById('map'),
   defaultLayers.normal.map,{
-  center: {lat:38.426, lng:-96.649},
+  center: {lat:38.428, lng:-96.647},
   zoom: 15,
   pixelRatio: pixelRatio
 });

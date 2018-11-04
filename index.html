@@ -103,12 +103,17 @@
 
   <script>
     var temperature;
-    var soil1;
+    var soil;
     var humidity;
     var sunlight;
-    var moisture;
+
+    var temperature1 = "";
+    var soil1 = "";
+    var humidity1 = "";
+    var sunlight1 = "";
 
     $(document).ready(function () {
+      /* Initial load of data*/
       $.ajax({
         crossOrigin: true,
         type: 'GET',
@@ -121,52 +126,140 @@
           alert("Error: " + xhr.status + " " + xhr.statusText);
         }
       });
-
+      
       $.ajax({
         crossOrigin: true,
         type: 'GET',
         url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lightonefeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
         success: function (data) {
-          soil1 = data.last_value;
-          console.log(soil1);
-          var soilInt = parseInt(soil1);
-          if (soilInt < 500) {
-            $("#node1img").attr("src", "./img/Dry-Warm.png");
+          soil = data.last_value;
+          var soilInt = parseInt(soil);
+          var tempInt = parseInt(temperature);
+          if (soilInt < 500 && tempInt>70){
+            $("#node1img").attr("src", "./img/Dry-Hot.png");
           }
-          else {
+          else if (soilInt >= 500 && tempInt>70){
+            $("#node1img").attr("src", "./img/Good-Hot.png");
+          }
+          else if (soilInt >= 500 && tempInt<=70 && tempInt >50){
             $("#node1img").attr("src", "./img/Good-Warm.png");
           }
+          else if (soilInt < 500 && tempInt <= 70 && tempInt >50){
+            $("#node1img").attr("src", "./img/Dry-Warm.png");
+          }
+          else if (soilInt < 500 && tempInt <=50){
+            $("#node1img").attr("src", "./img/Dry-Cold.png");
+          }
+          else if (soilInt >= 500 && tempInt <=50){
+            $("#node1img").attr("src", "./img/Good-Cold.png");
+          }
+
 
         },
         error: function (xhr) {
           alert("Error: " + xhr.status + " " + xhr.statusText);
         }
       });
+
       $.ajax({
         crossOrigin: true,
         type: 'GET',
         url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/humidityfeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
         success: function (data) {
           humidity = data.last_value;
-          console.log(humidity);
         },
         error: function (xhr) {
           alert("Error: " + xhr.status + " " + xhr.statusText);
         }
       });
-      $.ajax({
+
+	     $.ajax({
         crossOrigin: true,
         type: 'GET',
         url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lighttwofeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
         success: function (data) {
           sunlight = data.last_value;
-          console.log(sunlight);
         },
         error: function (xhr) {
           alert("Error: " + xhr.status + " " + xhr.statusText);
         }
       });
-      $.ajax({
+
+
+      /* Repeating ajax call */
+      var refreshTemp = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/humidityfeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          temperature = data.last_value;
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });}, 5000);
+      
+
+      var refreshSoil = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lightonefeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          soil = data.last_value;
+          var soilInt = parseInt(soil);
+          var tempInt = parseInt(temperature);
+          if (soilInt < 500 && tempInt>70){
+            $("#node1img").attr("src", "./img/Dry-Hot.png");
+          }
+          else if (soilInt >= 500 && tempInt>70){
+            $("#node1img").attr("src", "./img/Good-Hot.png");
+          }
+          else if (soilInt >= 500 && tempInt<=70 && tempInt >50){
+            $("#node1img").attr("src", "./img/Good-Warm.png");
+          }
+          else if (soilInt < 500 && tempInt <= 70 && tempInt >50){
+            $("#node1img").attr("src", "./img/Dry-Warm.png");
+          }
+          else if (soilInt < 500 && tempInt <=50){
+            $("#node1img").attr("src", "./img/Dry-Cold.png");
+          }
+          else if (soilInt >= 500 && tempInt <=50){
+            $("#node1img").attr("src", "./img/Good-Cold.png");
+          }
+
+
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });}, 5000);
+
+
+      var refreshHumid = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/humidityfeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          humidity = data.last_value;
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });}, 5000);
+
+      var refreshSun = setInterval(function() {$.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lighttwofeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          sunlight = data.last_value;
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });}, 5000);
+
+      /*$.ajax({
         crossOrigin: true,
         type: 'GET',
         url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/moisturefeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
@@ -177,98 +270,82 @@
         error: function (xhr) {
           alert("Error: " + xhr.status + " " + xhr.statusText);
         }
-      });
-
-
-<<<<<<< HEAD
-     $.ajax({
-       crossOrigin: true,
-       type: 'GET',
-       url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lightonefeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
-       dataType: 'json',
-       success: function (data) {
-         soil1 = data.last_value;
-         var soilInt = parseInt(soil1);
-        if(soilInt<500){
-         $("#node1img").attr("src","./img/Dry-Warm.png");
-         }
-         else{
-         $("#node1img").attr("src","./img/Good-Warm.png");
-         }
-         //data_format(data)
-         //$('.info').html(innerHtml)
-       },
-       error: function (xhr) {
-         alert("Error: " + xhr.status + " " + xhr.statusText);
-       }
-     });
-     
+      });*/
         
-=======
->>>>>>> 9d0804835c3c88726e94887f197c2e46c6df1e58
-
-      $("#node1").click(function () {
+      $("#node1").click(function changeNode() {
         $("#plantTitle").text("Carrot");
         $("#temp").text(temperature);
         $("#humid").text(humidity);
-        $("#soil").text(soil1);
+        $("#soil").text(soil);
         $("#sun").text(sunlight);
+        var refreshSensorPlant = setInterval( function(){$("#plantTitle").text("Carrot");}, 5000);
+        var refreshSensorTemp = setInterval( function(){$("#temp").text(temperature);}, 5000);
+        var refreshSensorHumid = setInterval( function(){$("#humid").text(humidity);}, 5000);
+        var refreshSensorSoil = setInterval( function(){$("#soil").text(soil);}, 5000);
+        var refreshSun = setInterval( function(){$("#sun").text(sunlight);}, 5000);
       });
-      $("#node2").click(function () {
+      $("#node2").click(function changeNode() {
         $("#plantTitle").text("Cucumber");
-        $("#temp").text("Temperature: ");
-        $("#humid").text("Humidity: ");
-        $("#soil").text("Soil Moisture: ");
-        $("#sun").text("Sunlight: ");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun").text(sunlight1);
       });
-      $("#node3").click(function () {
+      $("#node3").click(function changeNode() {
         $("#plantTitle").text("Potato");
-        $("#temp").text("Temperature: ");
-        $("#humid").text("Humidity: ");
-        $("#soil").text("Soil Moisture: ");
-        $("#sun").text("Sunlight: ");
+        $("#plantTitle").text("Cucumber");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun").text(sunlight1);
       });
-      $("#node4").click(function () {
+      $("#node4").click(function changeNode() {
         $("#plantTitle").text("Lettuce");
-        $("#temp").text("Temperature: ");
-        $("#humid").text("Humidity: ");
-        $("#soil").text("Soil Moisture: ");
-        $("#sun").text("Sunlight: ");
+        $("#plantTitle").text("Cucumber");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun").text(sunlight1);
       });
-      $("#node5").click(function () {
+      $("#node5").click(function changeNode() {
         $("#plantTitle").text("Lettuce");
-        $("#temp").text("Temperature: ");
-        $("#humid").text("Humidity: ");
-        $("#soil").text("Soil Moisture: ");
-        $("#sun").text("Sunlight: ");
+        $("#plantTitle").text("Cucumber");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun").text(sunlight1);
       });
-      $("#node6").click(function () {
+      $("#node6").click(function changeNode() {
         $("#plantTitle").text("Lettuce");
-        $("#temp").text("Temperature: ");
-        $("#humid").text("Humidity: ");
-        $("#soil").text("Soil Moisture: ");
-        $("#sun").text("Sunlight: ");
+        $("#plantTitle").text("Cucumber");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun").text(sunlight1);
       });
-      $("#node7").click(function () {
+      $("#node7").click(function changeNode() {
         $("#plantTitle").text("Radish");
-        $("#temp").text("Temperature: ");
-        $("#humid").text("Humidity: ");
-        $("#soil").text("Soil Moisture: ");
-        $("#sun").text("Sunlight: ");
+        $("#plantTitle").text("Cucumber");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun").text(sunlight1);
       });
-      $("#node8").click(function () {
+      $("#node8").click(function changeNode() {
         $("#plantTitle").text("Tomato");
-        $("#temp").text("Temperature: ");
-        $("#humid").text("Humidity: ");
-        $("#soil").text("Soil Moisture: ");
-        $("#sun").text("Sunlight: ");
+        $("#plantTitle").text("Cucumber");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun").text(sunlight1);
       });
-      $("#node9").click(function () {
+      $("#node9").click(function changeNode() {
         $("#plantTitle").text("Broccoli");
-        $("#temp").text("Temperature: ");
-        $("#humid").text("Humidity: ");
-        $("#soil").text("Soil Moisture: ");
-        $("#sun").text("Sunlight: ");
+        $("#plantTitle").text("Cucumber");
+        $("#temp").text(temperature1);
+        $("#humid").text(humidity1);
+        $("#soil").text(soil1);
+        $("#sun").text(sunlight1);
       });
     });
   </script>

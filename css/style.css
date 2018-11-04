@@ -27,6 +27,7 @@
 
 .navigation a.active {
   color: green;
+  text-decoration:none;
 }
 
 
@@ -38,6 +39,21 @@
 	font-family: 'Robot', sans-serif;
 	height: 80vh;
 }
+
+.largeTitle{
+	font-weight: bold;
+	font-size: 10px;
+	text-align: center;
+}
+.largeSensorDescription{
+	font-size: 10px;
+	text-align: left;
+}
+.largeUnits{
+	font-size: 8px;
+	float: right;
+}
+
 .farm-container{
 	float:right;
 	position:relative;
