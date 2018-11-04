@@ -2,126 +2,185 @@
 <html lang="en">
 
 <head>
- <!-- Required meta tags -->
- <title>BigFarm</title>
- <meta charset="utf-8">
- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
- <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-   crossorigin="anonymous"></script>
+  <!-- Required meta tags -->
+  <title>BigFarm</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
 
 
- <!-- Bootstrap CSS -->
- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
-   crossorigin="anonymous">
- <link rel="stylesheet" href="./css/style.css">
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
- <!-- Fonts -->
- <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+    crossorigin="anonymous">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
 
 </head>
 
 <body>
   <!-- navbar -->
- <div class="navigation">
-  <a class="active" href="./index.html">Small Scale</a>
-  <img src="./img/What the crop.png">
-  <a href="./large-scale.html">Large Scale</a>
- </div>
- <div class="content">
-   <!-- Sensor data -->
-   <div class="sensorInfo">
-     <p class="title" id="plantTitle">Carrot</p>
-     <p class="sensorDescription">Temperature: <span class="sensorData" id="temp"></span></p>
-     <p class="units">&#8457;</p>
-     <p class="sensorDescription">Humidity: <span class="sensorData" id="humid"></span></p>
-     <p class="units">%</p>
-     <p class="sensorDescription">Soil Moisture: <span class="sensorData" id="soil"></span></p>
-     <p class="units">m<sup>3</sup> water/m<sup>3</sup> soil</p>
-     <p class="sensorDescription">Sunlight: <span class="sensorData" id="sun"></span></p>
-     <p class="units">lux</p>
-   </div>
+  <div class="navigation">
+    <a class="active" href="./index.html">Small Scale</a>
+    <img src="./img/What the crop.png">
+    <a href="./large-scale.html">Large Scale</a>
+  </div>
+  <div class="content">
+    <!-- Sensor data -->
+    <div class="sensorInfo">
+      <p class="title" id="plantTitle">Carrot</p>
+      <p class="sensorDescription">Temperature: <span class="sensorData" id="temp"></span></p>
+      <p class="units">&#8457;</p>
+      <p class="sensorDescription">Humidity: <span class="sensorData" id="humid"></span></p>
+      <p class="units">%</p>
+      <p class="sensorDescription">Soil Moisture: <span class="sensorData" id="soil"></span></p>
+      <p class="units">m<sup>3</sup> water/m<sup>3</sup> soil</p>
+      <p class="sensorDescription">Sunlight: <span class="sensorData" id="sun"></span></p>
+      <p class="units">lux</p>
+    </div>
 
-   <!-- Farm Grid -->
+    <!-- Farm Grid -->
 
-   <div class="farm-container">
-     <div class="node" onclick="changeNode()" id="node1">
-       <figure>
-         <img class="node-image" id = "node1img" src="./img/Good-Warm.png">
-         <figcaption><img src="./img/Carrot.jpg"></figcaption>
-       </figure>
-     </div>
-     <div class="node" id="node2" onclick="changeNode()">
-       <figure>
-         <img class="node-image" src="./img/Good-Warm.png">
-         <figcaption><img src="./img/Cucumber.jpg"></figcaption>
-       </figure>
-     </div>
-     <div class="node" id="node3" onclick="changeNode()">
-       <figure>
-         <img class="node-image" src="./img/Good-Warm.png">
-         <figcaption><img src="./img/Potato.jpg"></figcaption>
-       </figure>
-     </div>
-     <div class="node" onclick="changeNode()" id="node4">
-       <figure>
-         <img class="node-image" src="./img/Good-Warm.png">
-         <figcaption><img src="./img/Lettuce.jpg"></figcaption>
-       </figure>
-     </div>
-     <div class="node" id="node5" onclick="changeNode()">
-       <figure>
-         <img class="node-image" src="./img/Good-Warm.png">
-         <figcaption><img src="./img/Lettuce.jpg"></figcaption>
-       </figure>
-     </div>
-     <div class="node" id="node6" onclick="changeNode()">
-       <figure>
-         <img class="node-image" src="./img/Good-Warm.png">
-         <figcaption><img src="./img/Lettuce.jpg"></figcaption>
-       </figure>
-     </div>
-     <div class="node" onclick="changeNode()" id="node7">
-       <figure>
-         <img class="node-image" src="./img/Good-Warm.png">
-         <figcaption><img src="./img/Radish.jpg"></figcaption>
-       </figure>
-     </div>
-     <div class="node" id="node8" onclick="changeNode()">
-       <figure>
-         <img class="node-image" src="./img/Good-Warm.png">
-         <figcaption><img src="./img/Tomato.jpg"></figcaption>
-       </figure>
-     </div>
-     <div class="node" id="node9" onclick="changeNode()">
-       <figure>
-         <img class="node-image" src="./img/Good-Warm.png">
-         <figcaption><img src="./img/Broccoli.jpg"></figcaption>
-       </figure>
-     </div>
-   </div>
- </div>
+    <div class="farm-container">
+      <div class="node" onclick="changeNode()" id="node1">
+        <figure>
+          <img class="node-image" id="node1img" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Carrot.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" id="node2" onclick="changeNode()">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Cucumber.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" id="node3" onclick="changeNode()">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Potato.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" onclick="changeNode()" id="node4">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Lettuce.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" id="node5" onclick="changeNode()">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Lettuce.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" id="node6" onclick="changeNode()">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Lettuce.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" onclick="changeNode()" id="node7">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Radish.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" id="node8" onclick="changeNode()">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Tomato.jpg"></figcaption>
+        </figure>
+      </div>
+      <div class="node" id="node9" onclick="changeNode()">
+        <figure>
+          <img class="node-image" src="./img/Good-Warm.png">
+          <figcaption><img src="./img/Broccoli.jpg"></figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
 
- <script>
-   var soil1;
-   function ajax_get() {
-     $.ajax({
-       crossOrigin: true,
-       type: 'GET',
-       url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lightonefeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
-       error: function () {
-         alert("loading eror!");
-       },
-       success: function (data) {
-        
+  <script>
+    var temperature;
+    var soil1;
+    var humidity;
+    var sunlight;
+    var moisture;
+
+    $(document).ready(function () {
+      $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/humidityfeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          temperature = data.last_value;
+          console.log(temperature);
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
         }
-       }
-     )
+      });
 
-   };
-   $(document).ready(function () {
-     ajax_get();
-     //$('.btn').on('click', function () {
+      $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lightonefeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          soil1 = data.last_value;
+          console.log(soil1);
+          var soilInt = parseInt(soil1);
+          if (soilInt < 500) {
+            $("#node1img").attr("src", "./img/Dry-Warm.png");
+          }
+          else {
+            $("#node1img").attr("src", "./img/Good-Warm.png");
+          }
 
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });
+      $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/humidityfeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          humidity = data.last_value;
+          console.log(humidity);
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });
+      $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/lighttwofeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          sunlight = data.last_value;
+          console.log(sunlight);
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });
+      $.ajax({
+        crossOrigin: true,
+        type: 'GET',
+        url: 'https://io.adafruit.com/api/v2/atfriend1/feeds/moisturefeed?X-AIO-key=31f3868947f148738fab958c69531fa7',
+        success: function (data) {
+          moisture = data.last_value;
+          console.log(moisture);
+        },
+        error: function (xhr) {
+          alert("Error: " + xhr.status + " " + xhr.statusText);
+        }
+      });
+
+
+<<<<<<< HEAD
      $.ajax({
        crossOrigin: true,
        type: 'GET',
@@ -145,71 +204,73 @@
      });
      
         
+=======
+>>>>>>> 9d0804835c3c88726e94887f197c2e46c6df1e58
 
-     $("#node1").click(function () {
-       $("#plantTitle").text("Carrot");
-       $("#temp").text();
-       $("#humid").text();
-       $("#soil").text(soil1);
-       $("#sun").text();
-     });
-     $("#node2").click(function () {
-       $("#plantTitle").text("Cucumber");
-       $("#temp").text("Temperature: ");
-       $("#humid").text("Humidity: ");
-       $("#soil").text("Soil Moisture: ");
-       $("#sun").text("Sunlight: ");
-     });
-     $("#node3").click(function () {
-       $("#plantTitle").text("Potato");
-       $("#temp").text("Temperature: ");
-       $("#humid").text("Humidity: ");
-       $("#soil").text("Soil Moisture: ");
-       $("#sun").text("Sunlight: ");
-     });
-     $("#node4").click(function () {
-       $("#plantTitle").text("Lettuce");
-       $("#temp").text("Temperature: ");
-       $("#humid").text("Humidity: ");
-       $("#soil").text("Soil Moisture: ");
-       $("#sun").text("Sunlight: ");
-     });
-     $("#node5").click(function () {
-       $("#plantTitle").text("Lettuce");
-       $("#temp").text("Temperature: ");
-       $("#humid").text("Humidity: ");
-       $("#soil").text("Soil Moisture: ");
-       $("#sun").text("Sunlight: ");
-     });
-     $("#node6").click(function () {
-       $("#plantTitle").text("Lettuce");
-       $("#temp").text("Temperature: ");
-       $("#humid").text("Humidity: ");
-       $("#soil").text("Soil Moisture: ");
-       $("#sun").text("Sunlight: ");
-     });
-     $("#node7").click(function () {
-       $("#plantTitle").text("Radish");
-       $("#temp").text("Temperature: ");
-       $("#humid").text("Humidity: ");
-       $("#soil").text("Soil Moisture: ");
-       $("#sun").text("Sunlight: ");
-     });
-     $("#node8").click(function () {
-       $("#plantTitle").text("Tomato");
-       $("#temp").text("Temperature: ");
-       $("#humid").text("Humidity: ");
-       $("#soil").text("Soil Moisture: ");
-       $("#sun").text("Sunlight: ");
-     });
-     $("#node9").click(function () {
-       $("#plantTitle").text("Broccoli");
-       $("#temp").text("Temperature: ");
-       $("#humid").text("Humidity: ");
-       $("#soil").text("Soil Moisture: ");
-       $("#sun").text("Sunlight: ");
-     });
-   });
- </script>
+      $("#node1").click(function () {
+        $("#plantTitle").text("Carrot");
+        $("#temp").text(temperature);
+        $("#humid").text(humidity);
+        $("#soil").text(soil1);
+        $("#sun").text(sunlight);
+      });
+      $("#node2").click(function () {
+        $("#plantTitle").text("Cucumber");
+        $("#temp").text("Temperature: ");
+        $("#humid").text("Humidity: ");
+        $("#soil").text("Soil Moisture: ");
+        $("#sun").text("Sunlight: ");
+      });
+      $("#node3").click(function () {
+        $("#plantTitle").text("Potato");
+        $("#temp").text("Temperature: ");
+        $("#humid").text("Humidity: ");
+        $("#soil").text("Soil Moisture: ");
+        $("#sun").text("Sunlight: ");
+      });
+      $("#node4").click(function () {
+        $("#plantTitle").text("Lettuce");
+        $("#temp").text("Temperature: ");
+        $("#humid").text("Humidity: ");
+        $("#soil").text("Soil Moisture: ");
+        $("#sun").text("Sunlight: ");
+      });
+      $("#node5").click(function () {
+        $("#plantTitle").text("Lettuce");
+        $("#temp").text("Temperature: ");
+        $("#humid").text("Humidity: ");
+        $("#soil").text("Soil Moisture: ");
+        $("#sun").text("Sunlight: ");
+      });
+      $("#node6").click(function () {
+        $("#plantTitle").text("Lettuce");
+        $("#temp").text("Temperature: ");
+        $("#humid").text("Humidity: ");
+        $("#soil").text("Soil Moisture: ");
+        $("#sun").text("Sunlight: ");
+      });
+      $("#node7").click(function () {
+        $("#plantTitle").text("Radish");
+        $("#temp").text("Temperature: ");
+        $("#humid").text("Humidity: ");
+        $("#soil").text("Soil Moisture: ");
+        $("#sun").text("Sunlight: ");
+      });
+      $("#node8").click(function () {
+        $("#plantTitle").text("Tomato");
+        $("#temp").text("Temperature: ");
+        $("#humid").text("Humidity: ");
+        $("#soil").text("Soil Moisture: ");
+        $("#sun").text("Sunlight: ");
+      });
+      $("#node9").click(function () {
+        $("#plantTitle").text("Broccoli");
+        $("#temp").text("Temperature: ");
+        $("#humid").text("Humidity: ");
+        $("#soil").text("Soil Moisture: ");
+        $("#sun").text("Sunlight: ");
+      });
+    });
+  </script>
 
 </body>
