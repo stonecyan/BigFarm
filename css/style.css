@@ -132,6 +132,7 @@
 .node figcaption img:hover{
 	opacity:1;
 	transition-duration: 500ms;
+	cursor: pointer;
 }
 
 .mapbutton{
