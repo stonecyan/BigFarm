@@ -4,4 +4,4 @@ An IoT project where we took temperature, humidity, soil moisture, and light sen
 
 The next goal is to create incoporate a database to save sensor data across a long period of time with the goal of visualizing data to better inform decisions. We also want to add further customization in crop selections, sensor parameter alerts, farm/garden size, and sensor node placement. It could also be a possibility to incorporate picture and video to visually track crop growth.
 
-https://storage.googleapis.com/farmthecrop/WhatTheCrop/index.html
+https://devpost.com/software/what-the-crop
